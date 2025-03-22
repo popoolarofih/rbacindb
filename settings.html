@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - AccessGuard</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --info: #4895ef;
+      --warning: #f72585;
+      --danger: #e63946;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --sidebar-width: 250px;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f4f8;
+      overflow-x: hidden;
+    }
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 1.5rem 0;
+      z-index: 100;
+      transition: all 0.3s;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    .sidebar.collapsed {
+      width: 70px;
+    }
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    .sidebar-header h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .sidebar-logo {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .sidebar-nav {
+      padding: 0;
+      list-style: none;
+    }
+    .sidebar-nav li {
+      margin-bottom: 5px;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: all 0.3s;
+      border-left: 4px solid transparent;
+    }
+    .sidebar-link:hover, .sidebar-link.active {
+      color: white;
+      background-color: rgba(255,255,255,0.1);
+      border-left-color: white;
+    }
+    .sidebar-icon {
+      width: 24px;
+      text-align: center;
+      margin-right: 15px;
+    }
+    .sidebar-text {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    /* Main Content */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+    .main-content.expanded {
+      margin-left: 70px;
+    }
+    /* Page Header */
+    .page-header {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .page-title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    /* Settings Form */
+    .settings-container {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    .form-section {
+      margin-bottom: 1.5rem;
+    }
+    .form-section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #e9ecef;
+      padding-bottom: 0.5rem;
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    /* Mobile Responsiveness */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .main-content.expanded {
+        margin-left: 0;
+      }
+      .mobile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      .mobile-toggle {
+        background: var(--primary);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        cursor: pointer;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <button id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="sidebar-logo">AG</div>
+      <h3 class="sidebar-text">AccessGuard</h3>
+    </div>
+    <ul class="sidebar-nav">
+      <li>
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-tachometer-alt"></i></span>
+          <span class="sidebar-text">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="user-management.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-users"></i></span>
+          <span class="sidebar-text">User Management</span>
+        </a>
+      </li>
+      <li>
+        <a href="role-management.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-user-tag"></i></span>
+          <span class="sidebar-text">Role Management</span>
+        </a>
+      </li>
+      <li>
+        <a href="permission-management.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-shield-alt"></i></span>
+          <span class="sidebar-text">Permissions</span>
+        </a>
+      </li>
+      <li>
+        <a href="audit-logs.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-history"></i></span>
+          <span class="sidebar-text">Audit Logs</span>
+        </a>
+      </li>
+      <li>
+        <a href="settings.html" class="sidebar-link active">
+          <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
+          <span class="sidebar-text">Settings</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html" class="sidebar-link" id="logoutBtn">
+          <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
+          <span class="sidebar-text">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Mobile Header (visible only on small screens) -->
+  <div class="mobile-header d-lg-none">
+    <button class="mobile-toggle" id="mobileToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-logo">AG</div>
+    <h3>AccessGuard</h3>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h2 class="page-title">Settings</h2>
+    </div>
+    
+    <!-- Settings Form Container -->
+    <div class="settings-container">
+      <h3 class="form-section-title">Edit Your Profile</h3>
+      <form id="settingsForm">
+        <div class="form-section">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="firstName" class="form-label">First Name *</label>
+              <input type="text" class="form-control" id="firstName" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="lastName" class="form-label">Last Name *</label>
+              <input type="text" class="form-control" id="lastName" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address *</label>
+            <input type="email" class="form-control" id="email" required>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="phone" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phone">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="department" class="form-label">Department</label>
+              <input type="text" class="form-control" id="department">
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Firebase & Bootstrap Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCjRso9RQxY9Vcgg_7v-aNV-VF6HMVbIko",
+      authDomain: "bookkit-49189.firebaseapp.com",
+      databaseURL: "https://bookkit-49189-default-rtdb.firebaseio.com",
+      projectId: "bookkit-49189",
+      storageBucket: "bookkit-49189.firebasestorage.app",
+      messagingSenderId: "241256374457",
+      appId: "1:241256374457:web:0814bc5dca1f572a7b7b68",
+      measurementId: "G-9KNBF2P6JD"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const auth = firebase.auth();
+    
+    // Check if user is authenticated, otherwise redirect to login
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // Get the user UID
+        const uid = user.uid;
+        // Load user profile from the "users" node
+        database.ref('users/' + uid).once('value').then(snapshot => {
+          const profile = snapshot.val();
+          if (profile) {
+            // Split the name into first and last (assuming a space delimiter)
+            const nameParts = profile.name.split(' ');
+            document.getElementById('firstName').value = nameParts[0] || '';
+            document.getElementById('lastName').value = nameParts.slice(1).join(' ') || '';
+            document.getElementById('email').value = profile.email || '';
+            document.getElementById('phone').value = profile.phone || '';
+            document.getElementById('department').value = profile.department || '';
+          } else {
+            // If no profile is found, use auth profile details
+            document.getElementById('firstName').value = user.displayName ? user.displayName.split(' ')[0] : '';
+            document.getElementById('lastName').value = user.displayName ? user.displayName.split(' ').slice(1).join(' ') : '';
+            document.getElementById('email').value = user.email || '';
+          }
+        }).catch(error => {
+          console.error("Error loading profile:", error);
+        });
+      } else {
+        window.location.href = 'auth.html';
+      }
+    });
+    
+    // Handle profile form submission
+    document.getElementById('settingsForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const name = firstName + ' ' + lastName;
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const department = document.getElementById('department').value.trim();
+      
+      // Update profile in the Realtime Database under "users/{uid}"
+      const user = auth.currentUser;
+      if (user) {
+        const uid = user.uid;
+        const updatedProfile = { name, email, phone, department };
+        database.ref('users/' + uid).update(updatedProfile)
+          .then(() => {
+            alert("Profile updated successfully!");
+          })
+          .catch((error) => {
+            console.error("Error updating profile:", error);
+            alert("Error updating profile. Please try again.");
+          });
+      }
+    });
+    
+    // Sidebar toggle functionality
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('mainContent');
+      sidebar.classList.toggle('collapsed');
+      mainContent.classList.toggle('expanded');
+    });
+    
+    // Mobile menu toggle
+    document.getElementById('mobileToggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('show');
+    });
+    
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        window.location.href = 'auth.html';
+      }).catch((error) => {
+        console.error("Error signing out:", error);
+      });
+    });
+  </script>
+</body>
+</html>

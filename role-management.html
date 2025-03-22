@@ -1,0 +1,501 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Role Management - AccessGuard</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --info: #4895ef;
+      --warning: #f72585;
+      --danger: #e63946;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --sidebar-width: 250px;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f0f4f8;
+      overflow-x: hidden;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 1.5rem 0;
+      z-index: 100;
+      transition: all 0.3s;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar.collapsed {
+      width: 70px;
+    }
+    
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .sidebar-header h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    
+    .sidebar-logo {
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 20px;
+    }
+    
+    .sidebar-nav {
+      padding: 0;
+      list-style: none;
+    }
+    
+    .sidebar-nav li {
+      margin-bottom: 5px;
+    }
+    
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: all 0.3s;
+      border-left: 4px solid transparent;
+    }
+    
+    .sidebar-link:hover, .sidebar-link.active {
+      color: white;
+      background-color: rgba(255,255,255,0.1);
+      border-left-color: white;
+    }
+    
+    .sidebar-icon {
+      width: 24px;
+      text-align: center;
+      margin-right: 15px;
+    }
+    
+    .sidebar-text {
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    
+    /* Main Content */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+    
+    .main-content.expanded {
+      margin-left: 70px;
+    }
+    
+    /* Page Header */
+    .page-header {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .page-title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    /* Table Container */
+    .table-container {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .table-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    
+    .table-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    /* Role Table */
+    .role-table th {
+      font-weight: 600;
+      color: #495057;
+    }
+    
+    .action-btn {
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: none;
+      background-color: #f8f9fa;
+      color: #6c757d;
+      margin-right: 0.5rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    
+    .action-btn:hover {
+      background-color: #e9ecef;
+    }
+    
+    .action-btn.edit:hover {
+      color: var(--primary);
+    }
+    
+    .action-btn.delete:hover {
+      color: var(--danger);
+    }
+    
+    /* Mobile Responsiveness */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .main-content.expanded {
+        margin-left: 0;
+      }
+      
+      .mobile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      
+      .mobile-toggle {
+        background: var(--primary);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        cursor: pointer;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <button id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="sidebar-logo">AG</div>
+      <h3 class="sidebar-text">AccessGuard</h3>
+    </div>
+    <ul class="sidebar-nav">
+      <li>
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-tachometer-alt"></i></span>
+          <span class="sidebar-text">Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="user-management.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-users"></i></span>
+          <span class="sidebar-text">User Management</span>
+        </a>
+      </li>
+      <li>
+        <a href="role-management.html" class="sidebar-link active">
+          <span class="sidebar-icon"><i class="fas fa-user-tag"></i></span>
+          <span class="sidebar-text">Role Management</span>
+        </a>
+      </li>
+      <li>
+        <a href="permission-management.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-shield-alt"></i></span>
+          <span class="sidebar-text">Permissions</span>
+        </a>
+      </li>
+      <li>
+        <a href="audit-logs.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-history"></i></span>
+          <span class="sidebar-text">Audit Logs</span>
+        </a>
+      </li>
+      <li>
+        <a href="settings.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-cog"></i></span>
+          <span class="sidebar-text">Settings</span>
+        </a>
+      </li>
+      <li>
+        <a href="auth.html" class="sidebar-link" id="logoutBtn">
+          <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
+          <span class="sidebar-text">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Mobile Header (visible only on small screens) -->
+  <div class="mobile-header d-lg-none">
+    <button class="mobile-toggle" id="mobileToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-logo">AG</div>
+    <h3>AccessGuard</h3>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" id="mainContent">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h2 class="page-title">Role Management</h2>
+      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
+        <i class="fas fa-plus me-2"></i>Add Role
+      </button>
+    </div>
+
+    <!-- Table Container -->
+    <div class="table-container">
+      <div class="table-header">
+        <h4 class="table-title">Roles</h4>
+        <div class="table-actions">
+          <button class="btn btn-outline-secondary btn-sm" id="refreshBtn">
+            <i class="fas fa-sync-alt me-1"></i> Refresh
+          </button>
+          <!-- Filters and export options can be added here if needed -->
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-hover role-table" id="roleTable">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Permissions</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="roleTableBody">
+            <!-- Rows populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Role Modal -->
+  <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="roleForm" onsubmit="saveRole(event)">
+          <div class="modal-header">
+            <h5 class="modal-title" id="roleModalLabel">Add Role</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="roleId">
+            <div class="mb-3">
+              <label for="roleNameInput" class="form-label">Role Name</label>
+              <input type="text" class="form-control" id="roleNameInput" required>
+            </div>
+            <div class="mb-3">
+              <label for="rolePermissionsInput" class="form-label">Permissions (comma-separated)</label>
+              <input type="text" class="form-control" id="rolePermissionsInput" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save Role</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase & Bootstrap Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCjRso9RQxY9Vcgg_7v-aNV-VF6HMVbIko",
+      authDomain: "bookkit-49189.firebaseapp.com",
+      databaseURL: "https://bookkit-49189-default-rtdb.firebaseio.com",
+      projectId: "bookkit-49189",
+      storageBucket: "bookkit-49189.firebasestorage.app",
+      messagingSenderId: "241256374457",
+      appId: "1:241256374457:web:0814bc5dca1f572a7b7b68",
+      measurementId: "G-9KNBF2P6JD"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const auth = firebase.auth();
+    
+    // Fetch and populate roles table from "roles" node
+    function fetchRoles() {
+      database.ref('roles').on('value', snapshot => {
+        const roles = snapshot.val();
+        const tbody = document.getElementById('roleTableBody');
+        tbody.innerHTML = '';
+        if (roles) {
+          Object.keys(roles).forEach(id => {
+            const role = roles[id];
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${role.name}</td>
+              <td>${role.permissions}</td>
+              <td>
+                <button class="action-btn edit" onclick="openEditRoleModal('${id}', '${role.name}', '${role.permissions}')">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn delete" onclick="deleteRole('${id}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            `;
+            tbody.appendChild(tr);
+          });
+        } else {
+          tbody.innerHTML = '<tr><td colspan="3" class="text-center">No roles found.</td></tr>';
+        }
+      });
+    }
+    
+    fetchRoles();
+    
+    function openAddRoleModal() {
+      document.getElementById('roleForm').reset();
+      document.getElementById('roleId').value = '';
+      document.getElementById('roleModalLabel').textContent = 'Add Role';
+    }
+    
+    function openEditRoleModal(id, name, permissions) {
+      document.getElementById('roleId').value = id;
+      document.getElementById('roleNameInput').value = name;
+      document.getElementById('rolePermissionsInput').value = permissions;
+      document.getElementById('roleModalLabel').textContent = 'Edit Role';
+      var roleModal = new bootstrap.Modal(document.getElementById('roleModal'));
+      roleModal.show();
+    }
+    
+    function saveRole(event) {
+      event.preventDefault();
+      const id = document.getElementById('roleId').value;
+      const name = document.getElementById('roleNameInput').value.trim();
+      const permissions = document.getElementById('rolePermissionsInput').value.trim();
+      const roleData = { name, permissions };
+      if (id) {
+        database.ref('roles/' + id).update(roleData)
+          .then(() => closeModal('roleModal'));
+      } else {
+        database.ref('roles').push(roleData)
+          .then(() => closeModal('roleModal'));
+      }
+    }
+    
+    function deleteRole(id) {
+      if (confirm('Are you sure you want to delete this role?')) {
+        database.ref('roles/' + id).remove();
+      }
+    }
+    
+    function closeModal(modalId) {
+      var modalEl = document.getElementById(modalId);
+      var modalInstance = bootstrap.Modal.getInstance(modalEl);
+      modalInstance.hide();
+    }
+    
+    // Refresh roles table
+    document.getElementById('refreshBtn').addEventListener('click', fetchRoles);
+    
+    // Sidebar toggle functionality
+    document.getElementById('sidebarToggle').addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('mainContent');
+      sidebar.classList.toggle('collapsed');
+      mainContent.classList.toggle('expanded');
+    });
+    
+    // Mobile menu toggle
+    document.getElementById('mobileToggle')?.addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('show');
+    });
+    
+    // Logout functionality (if using auth)
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      auth.signOut().then(() => {
+        window.location.href = 'auth.html';
+      }).catch((error) => {
+        console.error("Error signing out:", error);
+      });
+    });
+  </script>
+</body>
+</html>
