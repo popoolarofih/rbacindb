@@ -1,9 +1,9 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Role Management - AccessGuard</title>
+  <title>System Status - AccessGuard</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <!-- Font Awesome for Icons -->
@@ -23,13 +23,11 @@
       --dark: #212529;
       --sidebar-width: 250px;
     }
-    
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f0f4f8;
       overflow-x: hidden;
     }
-    
     /* Sidebar */
     .sidebar {
       position: fixed;
@@ -44,17 +42,14 @@
       transition: all 0.3s;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     }
-    
     .sidebar.collapsed {
       width: 70px;
     }
-    
     .sidebar-header {
       padding: 0 1.5rem 1.5rem;
       display: flex;
       align-items: center;
     }
-    
     .sidebar-header h3 {
       margin: 0;
       font-size: 1.5rem;
@@ -62,7 +57,6 @@
       white-space: nowrap;
       overflow: hidden;
     }
-    
     .sidebar-logo {
       width: 40px;
       height: 40px;
@@ -76,16 +70,13 @@
       font-weight: bold;
       font-size: 20px;
     }
-    
     .sidebar-nav {
       padding: 0;
       list-style: none;
     }
-    
     .sidebar-nav li {
       margin-bottom: 5px;
     }
-    
     .sidebar-link {
       display: flex;
       align-items: center;
@@ -95,35 +86,29 @@
       transition: all 0.3s;
       border-left: 4px solid transparent;
     }
-    
     .sidebar-link:hover, .sidebar-link.active {
       color: white;
       background-color: rgba(255,255,255,0.1);
       border-left-color: white;
     }
-    
     .sidebar-icon {
       width: 24px;
       text-align: center;
       margin-right: 15px;
     }
-    
     .sidebar-text {
       white-space: nowrap;
       overflow: hidden;
     }
-    
     /* Main Content */
     .main-content {
       margin-left: var(--sidebar-width);
       padding: 2rem;
       transition: all 0.3s;
     }
-    
     .main-content.expanded {
       margin-left: 70px;
     }
-    
     /* Page Header */
     .page-header {
       background: white;
@@ -135,107 +120,55 @@
       justify-content: space-between;
       align-items: center;
     }
-    
     .page-title {
       margin: 0;
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--dark);
     }
-    
-    /* Table Container */
-    .table-container {
+    /* Table Container for Metrics */
+    .metrics-container {
       background: white;
       border-radius: 10px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
-    
-    .table-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
+    .metric-item {
+      margin-bottom: 1.5rem;
     }
-    
-    .table-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin: 0;
-    }
-    
-    .table-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-    
-    /* Role Table */
-    .role-table th {
-      font-weight: 600;
-      color: #495057;
-    }
-    
-    .action-btn {
-      width: 32px;
-      height: 32px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 6px;
-      border: none;
-      background-color: #f8f9fa;
+    .metric-title {
+      font-size: 0.9rem;
       color: #6c757d;
-      margin-right: 0.5rem;
-      transition: all 0.2s;
-      cursor: pointer;
+      margin-bottom: 0.25rem;
     }
-    
-    .action-btn:hover {
-      background-color: #e9ecef;
+    .metric-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
     }
-    
-    .action-btn.edit:hover {
-      color: var(--primary);
+    .progress {
+      height: 8px;
     }
-    
-    .action-btn.delete:hover {
-      color: var(--danger);
-    }
-    #sidebarToggle {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    
-    
     /* Mobile Responsiveness */
     @media (max-width: 992px) {
       .sidebar {
         transform: translateX(-100%);
       }
-      
       .sidebar.show {
         transform: translateX(0);
       }
-      
       .main-content {
         margin-left: 0;
       }
-      
       .main-content.expanded {
         margin-left: 0;
       }
-      
       .mobile-header {
         display: flex;
         align-items: center;
         margin-bottom: 1rem;
       }
-      
       .mobile-toggle {
         background: var(--primary);
         border: none;
@@ -276,7 +209,7 @@
         </a>
       </li>
       <li>
-        <a href="role-management.html" class="sidebar-link active">
+        <a href="role-management.html" class="sidebar-link">
           <span class="sidebar-icon"><i class="fas fa-user-tag"></i></span>
           <span class="sidebar-text">Role Management</span>
         </a>
@@ -307,8 +240,8 @@
       </li>
     </ul>
   </div>
-
-  <!-- Mobile Header (visible only on small screens) -->
+  
+  <!-- Mobile Header -->
   <div class="mobile-header d-lg-none">
     <button class="mobile-toggle" id="mobileToggle">
       <i class="fas fa-bars"></i>
@@ -316,74 +249,52 @@
     <div class="sidebar-logo">AG</div>
     <h3>AccessGuard</h3>
   </div>
-
+  
   <!-- Main Content -->
   <div class="main-content" id="mainContent">
     <!-- Page Header -->
     <div class="page-header">
-      <h2 class="page-title">Role Management</h2>
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleModal">
-        <i class="fas fa-plus me-2"></i>Add Role
-      </button>
+      <h2 class="page-title">System Status</h2>
+      <div class="table-actions">
+        <button class="btn btn-outline-secondary btn-sm" id="refreshBtn">
+          <i class="fas fa-sync-alt me-1"></i> Refresh
+        </button>
+      </div>
     </div>
-
-    <!-- Table Container -->
-    <div class="table-container">
-      <div class="table-header">
-        <h4 class="table-title">Roles</h4>
-        <div class="table-actions">
-          <button class="btn btn-outline-secondary btn-sm" id="refreshBtn">
-            <i class="fas fa-sync-alt me-1"></i> Refresh
-          </button>
-          <!-- Filters and export options can be added here if needed -->
+  
+    <!-- Metrics Container -->
+    <div class="metrics-container">
+      <div class="metric-item">
+        <div class="metric-title">System Status</div>
+        <div class="metric-value" id="systemStatusText">Loading...</div>
+        <div class="progress">
+          <div id="systemStatusBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
         </div>
       </div>
-      <div class="table-responsive">
-        <table class="table table-hover role-table" id="roleTable">
-          <thead>
-            <tr>
-              <th>Role</th>
-              <th>Permissions</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="roleTableBody">
-            <!-- Rows populated by JS -->
-          </tbody>
-        </table>
+      <div class="metric-item">
+        <div class="metric-title">Server Load</div>
+        <div class="metric-value" id="serverLoadText">0%</div>
+        <div class="progress">
+          <div id="serverLoadBar" class="progress-bar bg-primary" role="progressbar" style="width: 0%"></div>
+        </div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-title">Storage Usage</div>
+        <div class="metric-value" id="storageUsageText">0%</div>
+        <div class="progress">
+          <div id="storageUsageBar" class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
+        </div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-title">Database Health</div>
+        <div class="metric-value" id="databaseHealthText">Loading...</div>
+        <div class="progress">
+          <div id="databaseHealthBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+        </div>
       </div>
     </div>
   </div>
-
-  <!-- Add/Edit Role Modal -->
-  <div class="modal fade" id="roleModal" tabindex="-1" aria-labelledby="roleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <form id="roleForm" onsubmit="saveRole(event)">
-          <div class="modal-header">
-            <h5 class="modal-title" id="roleModalLabel">Add Role</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <input type="hidden" id="roleId">
-            <div class="mb-3">
-              <label for="roleNameInput" class="form-label">Role Name</label>
-              <input type="text" class="form-control" id="roleNameInput" required>
-            </div>
-            <div class="mb-3">
-              <label for="rolePermissionsInput" class="form-label">Permissions (comma-separated)</label>
-              <input type="text" class="form-control" id="rolePermissionsInput" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save Role</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
+  
   <!-- Firebase & Bootstrap Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
@@ -406,82 +317,37 @@
     const database = firebase.database();
     const auth = firebase.auth();
     
-    // Fetch and populate roles table from "roles" node
-    function fetchRoles() {
-      database.ref('roles').on('value', snapshot => {
-        const roles = snapshot.val();
-        const tbody = document.getElementById('roleTableBody');
-        tbody.innerHTML = '';
-        if (roles) {
-          Object.keys(roles).forEach(id => {
-            const role = roles[id];
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td>${role.name}</td>
-              <td>${role.permissions}</td>
-              <td>
-                <button class="action-btn edit" onclick="openEditRoleModal('${id}', '${role.name}', '${role.permissions}')">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="action-btn delete" onclick="deleteRole('${id}')">
-                  <i class="fas fa-trash"></i>
-                </button>
-              </td>
-            `;
-            tbody.appendChild(tr);
-          });
+    // Fetch system status from "systemOverview" node
+    function fetchSystemStatus() {
+      database.ref('systemOverview').once('value').then(snapshot => {
+        const overview = snapshot.val();
+        if (overview) {
+          document.getElementById('systemStatusText').textContent = overview.systemStatus || 'Unknown';
+          document.getElementById('systemStatusBar').style.width = (overview.systemStatusPercent || 0) + '%';
+          
+          document.getElementById('serverLoadText').textContent = (overview.serverLoad || 0) + '%';
+          document.getElementById('serverLoadBar').style.width = (overview.serverLoad || 0) + '%';
+          
+          document.getElementById('storageUsageText').textContent = (overview.storageUsage || 0) + '%';
+          document.getElementById('storageUsageBar').style.width = (overview.storageUsage || 0) + '%';
+          
+          document.getElementById('databaseHealthText').textContent = overview.databaseHealth || 'Unknown';
+          document.getElementById('databaseHealthBar').style.width = (overview.databaseHealthPercent || 0) + '%';
         } else {
-          tbody.innerHTML = '<tr><td colspan="3" class="text-center">No roles found.</td></tr>';
+          document.getElementById('systemStatusText').textContent = 'No Data';
+          document.getElementById('serverLoadText').textContent = '0%';
+          document.getElementById('storageUsageText').textContent = '0%';
+          document.getElementById('databaseHealthText').textContent = 'No Data';
         }
+      }).catch(error => {
+        console.error("Error fetching system overview:", error);
       });
     }
     
-    fetchRoles();
+    fetchSystemStatus();
     
-    function openAddRoleModal() {
-      document.getElementById('roleForm').reset();
-      document.getElementById('roleId').value = '';
-      document.getElementById('roleModalLabel').textContent = 'Add Role';
-    }
-    
-    function openEditRoleModal(id, name, permissions) {
-      document.getElementById('roleId').value = id;
-      document.getElementById('roleNameInput').value = name;
-      document.getElementById('rolePermissionsInput').value = permissions;
-      document.getElementById('roleModalLabel').textContent = 'Edit Role';
-      var roleModal = new bootstrap.Modal(document.getElementById('roleModal'));
-      roleModal.show();
-    }
-    
-    function saveRole(event) {
-      event.preventDefault();
-      const id = document.getElementById('roleId').value;
-      const name = document.getElementById('roleNameInput').value.trim();
-      const permissions = document.getElementById('rolePermissionsInput').value.trim();
-      const roleData = { name, permissions };
-      if (id) {
-        database.ref('roles/' + id).update(roleData)
-          .then(() => closeModal('roleModal'));
-      } else {
-        database.ref('roles').push(roleData)
-          .then(() => closeModal('roleModal'));
-      }
-    }
-    
-    function deleteRole(id) {
-      if (confirm('Are you sure you want to delete this role?')) {
-        database.ref('roles/' + id).remove();
-      }
-    }
-    
-    function closeModal(modalId) {
-      var modalEl = document.getElementById(modalId);
-      var modalInstance = bootstrap.Modal.getInstance(modalEl);
-      modalInstance.hide();
-    }
-    
-    // Refresh roles table
-    document.getElementById('refreshBtn').addEventListener('click', fetchRoles);
+    // Refresh button functionality
+    document.getElementById('refreshBtn').addEventListener('click', fetchSystemStatus);
     
     // Sidebar toggle functionality
     document.getElementById('sidebarToggle').addEventListener('click', () => {
@@ -496,7 +362,7 @@
       document.getElementById('sidebar').classList.toggle('show');
     });
     
-    // Logout functionality (if using auth)
+    // Logout functionality
     document.getElementById('logoutBtn').addEventListener('click', (e) => {
       e.preventDefault();
       auth.signOut().then(() => {
@@ -504,6 +370,13 @@
       }).catch((error) => {
         console.error("Error signing out:", error);
       });
+    });
+    
+    // Restrict access if not authenticated
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = 'auth.html';
+      }
     });
   </script>
 </body>
