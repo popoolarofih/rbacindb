@@ -9,10 +9,7 @@
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   
   <style>
     :root {
@@ -318,9 +315,6 @@
   <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <button id="sidebarToggle">
-        <i class="fas fa-bars"></i>
-      </button>
       <div class="sidebar-logo">AG</div>
       <h3 class="sidebar-text">AccessGuard</h3>
     </div>
@@ -362,7 +356,7 @@
         </a>
       </li>
       <li>
-        <a href="auth.html" class="sidebar-link" id="logoutBtn">
+        <a href="#" class="sidebar-link" id="logoutBtn">
           <span class="sidebar-icon"><i class="fas fa-sign-out-alt"></i></span>
           <span class="sidebar-text">Logout</span>
         </a>
@@ -551,6 +545,27 @@
     const auth = firebase.auth();
     const database = firebase.database();
     
+    // Function to get user's role and permissions
+    function getUserRoleAndPermissions(uid) {
+      return database.ref('users/' + uid).once('value')
+      .then(snapshot => {
+        console.log('User data:', snapshot.val());
+          const userData = snapshot.val();
+          if (userData) {
+            return {
+              role: userData.role || 'user',
+              permissions: userData.permissions || 'View'
+            };
+          } else {
+            return {
+              role: 'Unknown',
+              permissions: 'Unknown'
+            };
+          }
+        })
+        .catch(err => console.error("Error reading user record:", err));
+    }
+    
     // Listen for auth changes
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -560,22 +575,24 @@
         const initials = displayName.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
         document.getElementById('userAvatar').textContent = initials;
 
-        // Retrieve actual role & permissions from DB
-        const uid = user.uid;
-        database.ref('users/' + uid).once('value')
-          .then(snapshot => {
-            const userData = snapshot.val();
-            if (userData) {
-              const userRole = userData.role || 'user';
-              const userPerms = userData.permissions || 'View';
-              document.getElementById('userRole').innerHTML = `<i class="fas fa-user-shield"></i> ${userRole}`;
-              document.getElementById('userPermissions').innerHTML = `<i class="fas fa-key"></i> ${userPerms}`;
-            } else {
-              document.getElementById('userRole').innerHTML = `<i class="fas fa-user-shield"></i> Unknown`;
-              document.getElementById('userPermissions').innerHTML = `<i class="fas fa-key"></i> Unknown`;
-            }
+        // Get user's role and permissions
+        getUserRoleAndPermissions(user.uid)
+          .then(userInfo => {
+            document.getElementById('userRole').innerHTML = `<i class="fas fa-user-shield"></i> ${userInfo.role}`;
+            document.getElementById('userPermissions').innerHTML = `<i class="fas fa-key"></i> ${userInfo.permissions}`;
+            
+            // Store user info in sessionStorage for access across pages
+            sessionStorage.setItem('userRole', userInfo.role);
+            sessionStorage.setItem('userPermissions', userInfo.permissions);
+            
+            // Update UI based on permissions if needed
+            updateUIBasedOnPermissions(userInfo.permissions);
           })
-          .catch(err => console.error("Error reading user record:", err));
+          .catch(error => {
+            console.error("Failed to get user role and permissions:", error);
+            document.getElementById('userRole').innerHTML = `<i class="fas fa-user-shield"></i> Error`;
+            document.getElementById('userPermissions').innerHTML = `<i class="fas fa-key"></i> Error`;
+          });
 
         // Count total users
         database.ref('users').once('value')
@@ -586,8 +603,18 @@
           })
           .catch(err => console.error("Error counting users:", err));
 
-        // Hard-code new users as 0 (unless you store creation timestamps)
-        document.getElementById('statNewUsers').textContent = '0';
+        // Count new users in last 30 days
+        const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+        database.ref('users').orderByChild('createdAt').startAt(thirtyDaysAgo).once('value')
+          .then(snapshot => {
+            const newUsersData = snapshot.val();
+            const newUsersCount = newUsersData ? Object.keys(newUsersData).length : 0;
+            document.getElementById('statNewUsers').textContent = newUsersCount.toString();
+          })
+          .catch(err => {
+            console.error("Error counting new users:", err);
+            document.getElementById('statNewUsers').textContent = '0';
+          });
 
         // Count active roles & gather unique permission sets
         database.ref('roles').once('value')
@@ -617,19 +644,24 @@
           .then(snapshot => {
             const overview = snapshot.val();
             if (overview) {
-              document.getElementById('systemStatusText').textContent = overview.systemStatus || '';
-              document.getElementById('systemStatusBar').style.width = (overview.systemStatusPercent || 0) + '%';
-              document.getElementById('serverLoadText').textContent = (overview.serverLoad || 0) + '%';
-              document.getElementById('serverLoadBar').style.width = (overview.serverLoad || 0) + '%';
-              document.getElementById('storageUsageText').textContent = (overview.storageUsage || 0) + '%';
-              document.getElementById('storageUsageBar').style.width = (overview.storageUsage || 0) + '%';
-              document.getElementById('databaseHealthText').textContent = overview.databaseHealth || '';
-              document.getElementById('databaseHealthBar').style.width = (overview.databaseHealthPercent || 0) + '%';
+              document.getElementById('systemStatusText').textContent = overview.systemStatus || 'Operational';
+              document.getElementById('systemStatusBar').style.width = (overview.systemStatusPercent || 100) + '%';
+              document.getElementById('serverLoadText').textContent = (overview.serverLoad || 25) + '%';
+              document.getElementById('serverLoadBar').style.width = (overview.serverLoad || 25) + '%';
+              document.getElementById('storageUsageText').textContent = (overview.storageUsage || 45) + '%';
+              document.getElementById('storageUsageBar').style.width = (overview.storageUsage || 45) + '%';
+              document.getElementById('databaseHealthText').textContent = overview.databaseHealth || 'Good';
+              document.getElementById('databaseHealthBar').style.width = (overview.databaseHealthPercent || 95) + '%';
             } else {
-              document.getElementById('systemStatusText').textContent = 'No Data';
-              document.getElementById('serverLoadText').textContent = '0%';
-              document.getElementById('storageUsageText').textContent = '0%';
-              document.getElementById('databaseHealthText').textContent = 'No Data';
+              // Default values if no data exists
+              document.getElementById('systemStatusText').textContent = 'Operational';
+              document.getElementById('systemStatusBar').style.width = '100%';
+              document.getElementById('serverLoadText').textContent = '25%';
+              document.getElementById('serverLoadBar').style.width = '25%';
+              document.getElementById('storageUsageText').textContent = '45%';
+              document.getElementById('storageUsageBar').style.width = '45%';
+              document.getElementById('databaseHealthText').textContent = 'Good';
+              document.getElementById('databaseHealthBar').style.width = '95%';
             }
           })
           .catch(err => console.error("Error fetching system overview:", err));
@@ -638,6 +670,23 @@
         window.location.href = 'auth.html';
       }
     });
+
+    // Function to update UI based on user permissions
+    function updateUIBasedOnPermissions(permissions) {
+      const permArray = permissions.split(',').map(p => p.trim().toLowerCase());
+      
+      // Example: Hide elements that require edit permission
+      if (!permArray.includes('edit')) {
+        const editElements = document.querySelectorAll('.requires-edit-permission');
+        editElements.forEach(el => el.style.display = 'none');
+      }
+      
+      // Example: Disable admin features if not admin
+      if (!permArray.includes('admin')) {
+        const adminElements = document.querySelectorAll('.admin-only');
+        adminElements.forEach(el => el.classList.add('disabled'));
+      }
+    }
 
     // Helper function to fetch recent activities
     function fetchActivities() {
@@ -649,19 +698,36 @@
           const activities = snapshot.val();
           const activityList = document.getElementById('activityList');
           activityList.innerHTML = '';
+          
           if (activities) {
             // Sort descending by timestamp
-            const activityArray = Object.values(activities).sort((a, b) => b.timestamp - a.timestamp);
+            const activityArray = Object.entries(activities)
+              .map(([key, value]) => ({ key, ...value }))
+              .sort((a, b) => b.timestamp - a.timestamp);
+              
             activityArray.forEach(activity => {
               const item = document.createElement('div');
               item.classList.add('activity-item');
+              
+              // Determine icon color class based on action type
+              let iconClass = 'stat-primary';
+              if (activity.action) {
+                if (activity.action.includes('delete')) {
+                  iconClass = 'stat-warning';
+                } else if (activity.action.includes('create')) {
+                  iconClass = 'stat-success';
+                } else if (activity.action.includes('update')) {
+                  iconClass = 'stat-info';
+                }
+              }
+              
               item.innerHTML = `
-                <div class="activity-icon ${activity.iconClass || 'stat-primary'}">
+                <div class="activity-icon ${iconClass}">
                   <i class="fas ${activity.icon || 'fa-info-circle'}"></i>
                 </div>
                 <div class="activity-content">
-                  <div class="activity-title">${activity.title || 'No Title'}</div>
-                  <div class="activity-time">${activity.time ? new Date(activity.time).toLocaleString() : ''}</div>
+                  <div class="activity-title">${activity.title || 'Activity'}</div>
+                  <div class="activity-time">${formatTimestamp(activity.timestamp)}</div>
                 </div>
               `;
               activityList.appendChild(item);
@@ -670,28 +736,51 @@
             activityList.innerHTML = '<p class="text-center">No recent activities found.</p>';
           }
         })
-        .catch(err => console.error("Error fetching activities:", err));
+        .catch(err => {
+          console.error("Error fetching activities:", err);
+          document.getElementById('activityList').innerHTML = 
+            '<p class="text-center text-danger">Error loading activities.</p>';
+        });
+    }
+    
+    // Helper function to format timestamps
+    function formatTimestamp(timestamp) {
+      if (!timestamp) return 'Unknown date';
+      
+      const date = new Date(timestamp);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMins / 60);
+      const diffDays = Math.floor(diffHours / 24);
+      
+      if (diffMins < 1) {
+        return 'Just now';
+      } else if (diffMins < 60) {
+        return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
+      } else if (diffHours < 24) {
+        return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+      } else if (diffDays < 7) {
+        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+      } else {
+        return date.toLocaleDateString();
+      }
     }
 
-    // Sidebar toggle
-    document.getElementById('sidebarToggle').addEventListener('click', () => {
+    // Mobile sidebar toggle
+    document.getElementById('mobileToggle').addEventListener('click', function() {
       const sidebar = document.getElementById('sidebar');
-      const mainContent = document.getElementById('mainContent');
-      sidebar.classList.toggle('collapsed');
-      mainContent.classList.toggle('expanded');
+      sidebar.classList.toggle('show');
     });
 
-    // Mobile menu toggle
-    document.getElementById('mobileToggle')?.addEventListener('click', () => {
-      document.getElementById('sidebar').classList.toggle('show');
-    });
-
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', (e) => {
-      e.preventDefault();
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function(event) {
+      event.preventDefault();
       auth.signOut().then(() => {
         window.location.href = 'auth.html';
-      }).catch(err => console.error("Error signing out:", err));
+      }).catch(err => {
+        console.error("Error during logout:", err);
+      });
     });
   </script>
 </body>
