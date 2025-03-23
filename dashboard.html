@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AccessGuard Dashboard</title>
   <!-- Bootstrap CSS -->
@@ -9,7 +9,10 @@
   <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
   
   <style>
     :root {
@@ -23,13 +26,11 @@
       --dark: #212529;
       --sidebar-width: 250px;
     }
-    
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f0f4f8;
       overflow-x: hidden;
     }
-    
     /* Sidebar */
     .sidebar {
       position: fixed;
@@ -44,17 +45,14 @@
       transition: all 0.3s;
       box-shadow: 2px 0 10px rgba(0,0,0,0.1);
     }
-    
     .sidebar.collapsed {
       width: 70px;
     }
-    
     .sidebar-header {
       padding: 0 1.5rem 1.5rem;
       display: flex;
       align-items: center;
     }
-    
     .sidebar-header h3 {
       margin: 0;
       font-size: 1.5rem;
@@ -62,7 +60,6 @@
       white-space: nowrap;
       overflow: hidden;
     }
-    
     .sidebar-logo {
       width: 40px;
       height: 40px;
@@ -76,16 +73,13 @@
       font-weight: bold;
       font-size: 20px;
     }
-    
     .sidebar-nav {
       padding: 0;
       list-style: none;
     }
-    
     .sidebar-nav li {
       margin-bottom: 5px;
     }
-    
     .sidebar-link {
       display: flex;
       align-items: center;
@@ -95,35 +89,29 @@
       transition: all 0.3s;
       border-left: 4px solid transparent;
     }
-    
     .sidebar-link:hover, .sidebar-link.active {
       color: white;
       background-color: rgba(255,255,255,0.1);
       border-left-color: white;
     }
-    
     .sidebar-icon {
       width: 24px;
       text-align: center;
       margin-right: 15px;
     }
-    
     .sidebar-text {
       white-space: nowrap;
       overflow: hidden;
     }
-    
     /* Main Content */
     .main-content {
       margin-left: var(--sidebar-width);
       padding: 2rem;
       transition: all 0.3s;
     }
-    
     .main-content.expanded {
       margin-left: 70px;
     }
-    
     /* Dashboard Header */
     .dashboard-header {
       background: white;
@@ -132,12 +120,10 @@
       margin-bottom: 1.5rem;
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
-    
     .user-profile {
       display: flex;
       align-items: center;
     }
-    
     .avatar {
       width: 50px;
       height: 50px;
@@ -151,20 +137,17 @@
       font-weight: 600;
       margin-right: 1rem;
     }
-    
     .user-details h2 {
       margin: 0;
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--dark);
     }
-    
     .user-meta {
       display: flex;
       gap: 1rem;
       margin-top: 0.5rem;
     }
-    
     .user-meta-item {
       background-color: #e9ecef;
       padding: 0.25rem 0.75rem;
@@ -172,7 +155,6 @@
       font-size: 0.85rem;
       color: var(--dark);
     }
-    
     /* Stats Cards */
     .stats-container {
       display: grid;
@@ -180,7 +162,6 @@
       gap: 1.5rem;
       margin-bottom: 1.5rem;
     }
-    
     .stat-card {
       background: white;
       border-radius: 10px;
@@ -188,11 +169,9 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
       transition: transform 0.3s;
     }
-    
     .stat-card:hover {
       transform: translateY(-5px);
     }
-    
     .stat-icon {
       width: 48px;
       height: 48px;
@@ -203,25 +182,21 @@
       font-size: 1.5rem;
       margin-bottom: 1rem;
     }
-    
     .stat-primary { background-color: rgba(67, 97, 238, 0.1); color: var(--primary); }
     .stat-success { background-color: rgba(76, 201, 240, 0.1); color: var(--success); }
     .stat-warning { background-color: rgba(247, 37, 133, 0.1); color: var(--warning); }
     .stat-info { background-color: rgba(72, 149, 239, 0.1); color: var(--info); }
-    
     .stat-title {
       font-size: 0.9rem;
       color: #6c757d;
       margin-bottom: 0.25rem;
     }
-    
     .stat-value {
       font-size: 1.75rem;
       font-weight: 700;
       margin-bottom: 0;
     }
-    
-    /* Activity Section */
+    /* Activity & Overview Sections */
     .activity-section, .overview-section {
       background: white;
       border-radius: 10px;
@@ -229,32 +204,27 @@
       margin-bottom: 1.5rem;
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
-    
     .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1.5rem;
     }
-    
     .section-title {
       font-size: 1.25rem;
       font-weight: 600;
       margin: 0;
     }
-    
     .section-action {
       color: var(--primary);
       text-decoration: none;
       font-weight: 500;
       font-size: 0.9rem;
     }
-    
     .activity-item {
       display: flex;
       margin-bottom: 1.25rem;
     }
-    
     .activity-icon {
       width: 36px;
       height: 36px;
@@ -265,28 +235,23 @@
       margin-right: 0.75rem;
       flex-shrink: 0;
     }
-    
     .activity-content {
       flex-grow: 1;
     }
-    
     .activity-title {
       font-weight: 500;
       margin-bottom: 0.25rem;
     }
-    
     .activity-time {
       font-size: 0.8rem;
       color: #6c757d;
     }
-    
     /* Quick Actions */
     .quick-actions {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 1rem;
     }
-    
     .action-card {
       background: white;
       border-radius: 10px;
@@ -297,13 +262,11 @@
       transition: all 0.3s;
       border: 1px solid #eaeaea;
     }
-    
     .action-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0,0,0,0.05);
       color: var(--primary);
     }
-    
     .action-icon {
       width: 48px;
       height: 48px;
@@ -316,41 +279,25 @@
       font-size: 1.25rem;
       margin: 0 auto 1rem;
     }
-    
-    /* Toggle Button */
-    #sidebarToggle {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-    
     /* Mobile Responsiveness */
     @media (max-width: 992px) {
       .sidebar {
         transform: translateX(-100%);
       }
-      
       .sidebar.show {
         transform: translateX(0);
       }
-      
       .main-content {
         margin-left: 0;
       }
-      
       .main-content.expanded {
         margin-left: 0;
       }
-      
       .mobile-header {
         display: flex;
         align-items: center;
         margin-bottom: 1rem;
       }
-      
       .mobile-toggle {
         background: var(--primary);
         border: none;
@@ -377,7 +324,6 @@
       <div class="sidebar-logo">AG</div>
       <h3 class="sidebar-text">AccessGuard</h3>
     </div>
-    
     <ul class="sidebar-nav">
       <li>
         <a href="dashboard.html" class="sidebar-link active">
@@ -423,7 +369,7 @@
       </li>
     </ul>
   </div>
-
+  
   <!-- Mobile Header (visible only on small screens) -->
   <div class="mobile-header d-lg-none">
     <button class="mobile-toggle" id="mobileToggle">
@@ -432,10 +378,10 @@
     <div class="sidebar-logo">AG</div>
     <h3>AccessGuard</h3>
   </div>
-
+  
   <!-- Main Content -->
   <div class="main-content" id="mainContent">
-    <!-- User Header -->
+    <!-- Dashboard Header -->
     <div class="dashboard-header">
       <div class="user-profile">
         <div class="avatar" id="userAvatar"></div>
@@ -452,7 +398,7 @@
         </div>
       </div>
     </div>
-
+    
     <!-- Statistics Row -->
     <div class="stats-container">
       <div class="stat-card">
@@ -460,7 +406,7 @@
           <i class="fas fa-users"></i>
         </div>
         <div class="stat-title">Total Users</div>
-        <div id="statTotalUsers" class="stat-value"></div>
+        <div id="statTotalUsers" class="stat-value">0</div>
       </div>
       
       <div class="stat-card">
@@ -468,7 +414,7 @@
           <i class="fas fa-user-plus"></i>
         </div>
         <div class="stat-title">New Users (30d)</div>
-        <div id="statNewUsers" class="stat-value"></div>
+        <div id="statNewUsers" class="stat-value">0</div>
       </div>
       
       <div class="stat-card">
@@ -476,7 +422,7 @@
           <i class="fas fa-user-tag"></i>
         </div>
         <div class="stat-title">Active Roles</div>
-        <div id="statActiveRoles" class="stat-value"></div>
+        <div id="statActiveRoles" class="stat-value">0</div>
       </div>
       
       <div class="stat-card">
@@ -484,10 +430,10 @@
           <i class="fas fa-shield-alt"></i>
         </div>
         <div class="stat-title">Permission Sets</div>
-        <div id="statPermissionSets" class="stat-value"></div>
+        <div id="statPermissionSets" class="stat-value">0</div>
       </div>
     </div>
-
+    
     <!-- Main Sections Row -->
     <div class="row">
       <!-- Recent Activity -->
@@ -498,7 +444,7 @@
             <a href="activity-logs.html" class="section-action">View All</a>
           </div>
           <div id="activityList">
-            <!-- Activities will be dynamically inserted here -->
+            <!-- Activity rows will be inserted here -->
           </div>
         </div>
       </div>
@@ -549,7 +495,7 @@
         </div>
       </div>
     </div>
-
+    
     <!-- Quick Actions -->
     <h4 class="mt-2 mb-4">Quick Actions</h4>
     <div class="quick-actions">
@@ -559,21 +505,18 @@
         </div>
         <h5>User Management</h5>
       </a>
-      
       <a href="role-management.html" class="action-card">
         <div class="action-icon">
           <i class="fas fa-user-tag"></i>
         </div>
         <h5>Role Management</h5>
       </a>
-      
       <a href="permission-management.html" class="action-card">
         <div class="action-icon">
           <i class="fas fa-shield-alt"></i>
         </div>
         <h5>Permission Management</h5>
       </a>
-      
       <a href="settings.html" class="action-card">
         <div class="action-icon">
           <i class="fas fa-id-badge"></i>
@@ -582,13 +525,15 @@
       </a>
     </div>
   </div>
-
+  
   <!-- Firebase App (Core SDK) -->
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
   <!-- Firebase Auth -->
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
   <!-- Firebase Realtime Database -->
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+  <!-- Bootstrap Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
     // Firebase configuration
@@ -602,60 +547,111 @@
       appId: "1:241256374457:web:0814bc5dca1f572a7b7b68",
       measurementId: "G-9KNBF2P6JD"
     };
-
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const database = firebase.database();
-
-    // Check authentication state
-    auth.onAuthStateChanged(async (user) => {
+    
+    // Listen for auth changes
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        // Set user name and avatar
+        // Greet user
         const displayName = user.displayName || user.email || 'User';
         document.getElementById('userName').textContent = `Welcome, ${displayName}`;
-        const initials = displayName
-          .split(' ')
-          .map(name => name[0])
-          .join('')
-          .substring(0, 2)
-          .toUpperCase();
+        const initials = displayName.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
         document.getElementById('userAvatar').textContent = initials;
 
-        // Fetch custom claims if available (role and permissions)
-        try {
-          const idTokenResult = await user.getIdTokenResult();
-          const role = idTokenResult.claims.role || "User";
-          const permissions = idTokenResult.claims.permissions || "Read";
-          document.getElementById('userRole').innerHTML = `<i class="fas fa-user-shield"></i> ${role}`;
-          document.getElementById('userPermissions').innerHTML = `<i class="fas fa-key"></i> ${permissions}`;
-        } catch (error) {
-          console.error("Error fetching token claims:", error);
-          document.getElementById('userRole').innerHTML = `<i class="fas fa-user-shield"></i> User`;
-          document.getElementById('userPermissions').innerHTML = `<i class="fas fa-key"></i> Read`;
-        }
+        // Retrieve actual role & permissions from DB
+        const uid = user.uid;
+        database.ref('users/' + uid).once('value')
+          .then(snapshot => {
+            const userData = snapshot.val();
+            if (userData) {
+              const userRole = userData.role || 'user';
+              const userPerms = userData.permissions || 'View';
+              document.getElementById('userRole').innerHTML = `<i class="fas fa-user-shield"></i> ${userRole}`;
+              document.getElementById('userPermissions').innerHTML = `<i class="fas fa-key"></i> ${userPerms}`;
+            } else {
+              document.getElementById('userRole').innerHTML = `<i class="fas fa-user-shield"></i> Unknown`;
+              document.getElementById('userPermissions').innerHTML = `<i class="fas fa-key"></i> Unknown`;
+            }
+          })
+          .catch(err => console.error("Error reading user record:", err));
 
-        // Fetch and update stats from the database
-        database.ref('stats').once('value').then(snapshot => {
-          const stats = snapshot.val();
-          if (stats) {
-            document.getElementById('statTotalUsers').textContent = stats.totalUsers || '0';
-            document.getElementById('statNewUsers').textContent = stats.newUsers30d || '0';
-            document.getElementById('statActiveRoles').textContent = stats.activeRoles || '0';
-            document.getElementById('statPermissionSets').textContent = stats.permissionSets || '0';
-          }
-        }).catch(error => {
-          console.error("Error fetching stats: ", error);
-        });
+        // Count total users
+        database.ref('users').once('value')
+          .then(snapshot => {
+            const usersData = snapshot.val();
+            const totalUsers = usersData ? Object.keys(usersData).length : 0;
+            document.getElementById('statTotalUsers').textContent = totalUsers.toString();
+          })
+          .catch(err => console.error("Error counting users:", err));
 
-        // Fetch and display recent activities
-        database.ref('activities').limitToLast(5).once('value').then(snapshot => {
+        // Hard-code new users as 0 (unless you store creation timestamps)
+        document.getElementById('statNewUsers').textContent = '0';
+
+        // Count active roles & gather unique permission sets
+        database.ref('roles').once('value')
+          .then(snapshot => {
+            const rolesData = snapshot.val();
+            const activeRolesCount = rolesData ? Object.keys(rolesData).length : 0;
+            document.getElementById('statActiveRoles').textContent = activeRolesCount.toString();
+
+            let permSet = new Set();
+            if (rolesData) {
+              Object.values(rolesData).forEach(roleObj => {
+                if (roleObj.permissions) {
+                  const permsArray = roleObj.permissions.split(',').map(p => p.trim());
+                  permsArray.forEach(p => permSet.add(p));
+                }
+              });
+            }
+            document.getElementById('statPermissionSets').textContent = permSet.size.toString();
+          })
+          .catch(err => console.error("Error counting roles:", err));
+
+        // Fetch recent activities
+        fetchActivities();
+
+        // Fetch system overview
+        database.ref('systemOverview').once('value')
+          .then(snapshot => {
+            const overview = snapshot.val();
+            if (overview) {
+              document.getElementById('systemStatusText').textContent = overview.systemStatus || '';
+              document.getElementById('systemStatusBar').style.width = (overview.systemStatusPercent || 0) + '%';
+              document.getElementById('serverLoadText').textContent = (overview.serverLoad || 0) + '%';
+              document.getElementById('serverLoadBar').style.width = (overview.serverLoad || 0) + '%';
+              document.getElementById('storageUsageText').textContent = (overview.storageUsage || 0) + '%';
+              document.getElementById('storageUsageBar').style.width = (overview.storageUsage || 0) + '%';
+              document.getElementById('databaseHealthText').textContent = overview.databaseHealth || '';
+              document.getElementById('databaseHealthBar').style.width = (overview.databaseHealthPercent || 0) + '%';
+            } else {
+              document.getElementById('systemStatusText').textContent = 'No Data';
+              document.getElementById('serverLoadText').textContent = '0%';
+              document.getElementById('storageUsageText').textContent = '0%';
+              document.getElementById('databaseHealthText').textContent = 'No Data';
+            }
+          })
+          .catch(err => console.error("Error fetching system overview:", err));
+      } else {
+        // If no user is logged in, redirect
+        window.location.href = 'auth.html';
+      }
+    });
+
+    // Helper function to fetch recent activities
+    function fetchActivities() {
+      database.ref('activities')
+        .orderByChild('timestamp')
+        .limitToLast(5)
+        .once('value')
+        .then(snapshot => {
           const activities = snapshot.val();
           const activityList = document.getElementById('activityList');
-          activityList.innerHTML = ''; // Clear container
+          activityList.innerHTML = '';
           if (activities) {
-            // Convert object to array and reverse for descending order
-            const activityArray = Object.values(activities).reverse();
+            // Sort descending by timestamp
+            const activityArray = Object.values(activities).sort((a, b) => b.timestamp - a.timestamp);
             activityArray.forEach(activity => {
               const item = document.createElement('div');
               item.classList.add('activity-item');
@@ -665,44 +661,22 @@
                 </div>
                 <div class="activity-content">
                   <div class="activity-title">${activity.title || 'No Title'}</div>
-                  <div class="activity-time">${activity.time || ''}</div>
+                  <div class="activity-time">${activity.time ? new Date(activity.time).toLocaleString() : ''}</div>
                 </div>
               `;
               activityList.appendChild(item);
             });
+          } else {
+            activityList.innerHTML = '<p class="text-center">No recent activities found.</p>';
           }
-        }).catch(error => {
-          console.error("Error fetching activities:", error);
-        });
+        })
+        .catch(err => console.error("Error fetching activities:", err));
+    }
 
-        // Fetch and display system overview
-        database.ref('systemOverview').once('value').then(snapshot => {
-          const overview = snapshot.val();
-          if (overview) {
-            document.getElementById('systemStatusText').textContent = overview.systemStatus || '';
-            document.getElementById('systemStatusBar').style.width = (overview.systemStatusPercent || 0) + '%';
-            document.getElementById('serverLoadText').textContent = (overview.serverLoad || 0) + '%';
-            document.getElementById('serverLoadBar').style.width = (overview.serverLoad || 0) + '%';
-            document.getElementById('storageUsageText').textContent = (overview.storageUsage || 0) + '%';
-            document.getElementById('storageUsageBar').style.width = (overview.storageUsage || 0) + '%';
-            document.getElementById('databaseHealthText').textContent = overview.databaseHealth || '';
-            document.getElementById('databaseHealthBar').style.width = (overview.databaseHealthPercent || 0) + '%';
-          }
-        }).catch(error => {
-          console.error("Error fetching system overview:", error);
-        });
-
-      } else {
-        // If no user is logged in, redirect to the login page
-        window.location.href = 'auth.html';
-      }
-    });
-
-    // Sidebar toggle functionality
+    // Sidebar toggle
     document.getElementById('sidebarToggle').addEventListener('click', () => {
       const sidebar = document.getElementById('sidebar');
       const mainContent = document.getElementById('mainContent');
-      
       sidebar.classList.toggle('collapsed');
       mainContent.classList.toggle('expanded');
     });
@@ -712,18 +686,13 @@
       document.getElementById('sidebar').classList.toggle('show');
     });
 
-    // Logout functionality
+    // Logout
     document.getElementById('logoutBtn').addEventListener('click', (e) => {
       e.preventDefault();
       auth.signOut().then(() => {
         window.location.href = 'auth.html';
-      }).catch((error) => {
-        console.error("Error signing out:", error);
-      });
+      }).catch(err => console.error("Error signing out:", err));
     });
   </script>
-
-  <!-- Bootstrap Bundle (includes Popper) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
