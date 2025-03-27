@@ -332,6 +332,126 @@
         flex-direction: column-reverse;
       }
     }
+    /* Additional Responsive Enhancements */
+@media (max-width: 992px) {
+  /* Adjust header for smaller screens */
+  header {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    margin-top: 1rem;
+  }
+
+  .nav-links a {
+    margin: 0 0.5rem;
+    display: inline-block;
+  }
+
+  /* Improve features section layout */
+  .features .feature-item {
+    margin-bottom: 1.5rem;
+  }
+
+  .feature-item i {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 2rem;
+  }
+
+  /* Adjust typography for smaller screens */
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+  }
+
+  /* Use Cases section adjustments */
+  .use-case-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .use-case-icon {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  /* Ultra-small screen adjustments */
+  body {
+    font-size: 14px;
+  }
+
+  .hero-image img, 
+  .highlights .image img {
+    max-width: 100%;
+  }
+
+  .cta-section {
+    padding: 1.5rem;
+  }
+
+  /* Footer adjustments */
+  footer .footer-top {
+    flex-direction: column;
+  }
+
+  footer .footer-top > div {
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  footer .footer-top > div ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  footer .footer-top > div ul li {
+    margin: 0 0.5rem 0.5rem;
+  }
+}
+
+/* Fluid Typography for Better Scalability */
+html {
+  font-size: calc(14px + 0.5vw);
+}
+
+/* Smooth Responsive Transitions */
+* {
+  transition: all 0.3s ease;
+}
+
+/* Improved Image Responsiveness */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Flexbox Improvements */
+.hero, .highlights {
+  gap: 2rem;
+}
+
+/* Ensure proper spacing and alignment */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col-md-4, .col-lg-6 {
+  padding: 0 15px;
+  margin-bottom: 1.5rem;
+}
   </style>
 </head>
 <body>

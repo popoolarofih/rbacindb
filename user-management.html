@@ -844,7 +844,56 @@
       if(status === 'locked') return 'status-locked';
       return '';
     }
-    
+    function fetchRoles() {
+      const roleSelects = [
+        document.getElementById('userRoleSelect'), 
+        document.getElementById('editUserRole'),
+        document.getElementById('filterRole')
+      ];
+      // Reference to roles in the database
+      database.ref('roles').on('value', snapshot => {
+        const roles = snapshot.val();
+        
+        if (roles) {
+          // Clear existing options (except the first "Select Role" option)
+          roleSelects.forEach(select => {
+            // Keep the first option (Select Role/All Roles)
+            const firstOption = select.options[0];
+            select.innerHTML = '';
+            select.appendChild(firstOption);
+            
+            // Add new role options
+            Object.keys(roles).forEach(roleKey => {
+              const option = document.createElement('option');
+              option.value = roleKey;
+              option.textContent = roles[roleKey].name;
+              select.appendChild(option);
+            });
+          });
+        } else {
+          // Fallback to default roles if no roles in database
+          const defaultRoles = [
+            { key: 'admin', name: 'Admin' },
+            { key: 'manager', name: 'Manager' },
+            { key: 'user', name: 'User' },
+            { key: 'guest', name: 'Guest' }
+          ];
+          
+          roleSelects.forEach(select => {
+            const firstOption = select.options[0];
+            select.innerHTML = '';
+            select.appendChild(firstOption);
+            
+            defaultRoles.forEach(role => {
+              const option = document.createElement('option');
+              option.value = role.key;
+              option.textContent = role.name;
+              select.appendChild(option);
+            });
+          });
+        }
+      });
+    }
     // Pagination dummy (for demonstration)
     function updatePagination(total) {
       document.getElementById('showingStart').textContent = total > 0 ? 1 : 0;
