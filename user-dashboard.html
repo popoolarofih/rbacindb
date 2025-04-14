@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AccessGuard Dashboard</title>
+  <title>AccessGuard User Dashboard</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <!-- Font Awesome for Icons -->
@@ -24,20 +24,17 @@
       --sidebar-width: 250px;
       --mobile-sidebar-width: 280px;
     }
-    
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    
     body {
       font-family: 'Inter', sans-serif;
       background-color: #f0f4f8;
       line-height: 1.6;
       overflow-x: hidden;
     }
-    
     .sidebar {
       position: fixed;
       top: 0;
@@ -51,13 +48,11 @@
       transition: all 0.3s ease;
       overflow-y: auto;
     }
-    
     .sidebar-header {
       padding: 0 1.5rem 1.5rem;
       display: flex;
       align-items: center;
     }
-    
     .sidebar-logo {
       width: 40px;
       height: 40px;
@@ -71,12 +66,10 @@
       font-weight: bold;
       font-size: 20px;
     }
-    
     .sidebar-nav {
       padding: 0;
       list-style: none;
     }
-    
     .sidebar-link {
       display: flex;
       align-items: center;
@@ -85,24 +78,20 @@
       text-decoration: none;
       transition: all 0.3s;
     }
-    
     .sidebar-link:hover, .sidebar-link.active {
       color: white;
       background-color: rgba(255,255,255,0.1);
     }
-    
     .sidebar-icon {
       width: 24px;
       text-align: center;
       margin-right: 15px;
     }
-    
     .main-content {
       margin-left: var(--sidebar-width);
       padding: 2rem;
       transition: all 0.3s;
     }
-    
     .dashboard-header {
       background: white;
       border-radius: 10px;
@@ -110,12 +99,10 @@
       margin-bottom: 1.5rem;
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     }
-    
     .user-profile {
       display: flex;
       align-items: center;
     }
-    
     .avatar {
       width: 50px;
       height: 50px;
@@ -129,14 +116,12 @@
       font-weight: 600;
       margin-right: 1rem;
     }
-    
     .stats-container {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
       margin-bottom: 1.5rem;
     }
-    
     .stat-card {
       background: white;
       border-radius: 10px;
@@ -144,17 +129,14 @@
       box-shadow: 0 4px 6px rgba(0,0,0,0.05);
       transition: transform 0.3s;
     }
-    
     .stat-card:hover {
       transform: translateY(-5px);
     }
-    
     .quick-actions {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
     }
-    
     .action-card {
       background: white;
       border-radius: 10px;
@@ -165,32 +147,26 @@
       transition: all 0.3s;
       border: 1px solid #eaeaea;
     }
-    
     .action-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0,0,0,0.05);
       color: var(--primary);
     }
-    
     .mobile-header {
       display: none;
     }
-    
     @media (max-width: 992px) {
       .sidebar {
         width: var(--mobile-sidebar-width);
         transform: translateX(-100%);
       }
-      
       .sidebar.show {
         transform: translateX(0);
       }
-      
       .main-content {
         margin-left: 0;
         padding: 1rem;
       }
-      
       .mobile-header {
         display: flex;
         align-items: center;
@@ -202,7 +178,6 @@
         top: 0;
         z-index: 1040;
       }
-      
       .mobile-toggle {
         background: var(--primary);
         border: none;
@@ -215,22 +190,15 @@
         justify-content: center;
         cursor: pointer;
       }
-      
       .stats-container {
         grid-template-columns: repeat(2, 1fr);
       }
-      
       .quick-actions {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    
-    @media (max-width: 576px) {
-      .stats-container {
         grid-template-columns: 1fr;
       }
-      
-      .quick-actions {
+    }
+    @media (max-width: 576px) {
+      .stats-container {
         grid-template-columns: 1fr;
       }
     }
@@ -245,33 +213,27 @@
     </div>
     <ul class="sidebar-nav">
       <li>
-        <a href="dashboard.html" class="sidebar-link active">
+        <a href="user-dashboard.html" class="sidebar-link active">
           <span class="sidebar-icon"><i class="fas fa-tachometer-alt"></i></span>
-          Dashboard
+          My Dashboard
         </a>
       </li>
       <li>
-        <a href="user-management.html" class="sidebar-link">
-          <span class="sidebar-icon"><i class="fas fa-users"></i></span>
-          User Management
+        <a href="my-tasks.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-tasks"></i></span>
+          My Tasks
         </a>
       </li>
       <li>
-        <a href="role-management.html" class="sidebar-link">
-          <span class="sidebar-icon"><i class="fas fa-user-tag"></i></span>
-          Role Management
+        <a href="my-profile.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-user"></i></span>
+          My Profile
         </a>
       </li>
       <li>
-        <a href="permission-management.html" class="sidebar-link">
-          <span class="sidebar-icon"><i class="fas fa-shield-alt"></i></span>
-          Permissions
-        </a>
-      </li>
-      <li>
-        <a href="audit-logs.html" class="sidebar-link">
-          <span class="sidebar-icon"><i class="fas fa-history"></i></span>
-          Audit Logs
+        <a href="leave-application.html" class="sidebar-link">
+          <span class="sidebar-icon"><i class="fas fa-calendar-check"></i></span>
+          Leave Application
         </a>
       </li>
       <li>
@@ -309,77 +271,59 @@
         <div>
           <h2 id="userName">Welcome, User</h2>
           <div class="d-flex gap-2">
-            <span id="userRole" class="badge bg-primary">Role</span>
-            <span id="userPermissions" class="badge bg-info">Permissions</span>
+            <span id="userRole" class="badge bg-primary">Employee</span>
+            <span id="userPermissions" class="badge bg-info">View</span>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Statistics -->
+    <!-- User Statistics -->
     <div class="stats-container">
       <div class="stat-card">
         <div class="d-flex justify-content-between align-items-center">
           <div>
-            <h6 class="text-muted mb-2">Total Users</h6>
-            <h3 id="totalUsers">0</h3>
+            <h6 class="text-muted mb-2">Total Tasks</h6>
+            <h3 id="totalTasks">0</h3>
           </div>
-          <i class="fas fa-users text-primary fs-2"></i>
+          <i class="fas fa-tasks text-primary fs-2"></i>
         </div>
       </div>
       <div class="stat-card">
         <div class="d-flex justify-content-between align-items-center">
           <div>
-            <h6 class="text-muted mb-2">Active Roles</h6>
-            <h3 id="activeRoles">0</h3>
+            <h6 class="text-muted mb-2">Completed Tasks</h6>
+            <h3 id="completedTasks">0</h3>
           </div>
-          <i class="fas fa-user-tag text-success fs-2"></i>
+          <i class="fas fa-check-circle text-success fs-2"></i>
         </div>
       </div>
       <div class="stat-card">
         <div class="d-flex justify-content-between align-items-center">
           <div>
-            <h6 class="text-muted mb-2">New Users (30d)</h6>
-            <h3 id="newUsers">0</h3>
+            <h6 class="text-muted mb-2">Pending Tasks</h6>
+            <h3 id="pendingTasks">0</h3>
           </div>
-          <i class="fas fa-user-plus text-warning fs-2"></i>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h6 class="text-muted mb-2">Permission Sets</h6>
-            <h3 id="permissionSets">0</h3>
-          </div>
-          <i class="fas fa-shield-alt text-info fs-2"></i>
+          <i class="fas fa-hourglass-half text-warning fs-2"></i>
         </div>
       </div>
     </div>
     
-    <!-- Quick Actions -->
+    <!-- Quick Actions for Users -->
     <h4 class="mb-3">Quick Actions</h4>
     <div class="quick-actions">
-      <a href="user-management.html" class="action-card">
-        <i class="fas fa-users mb-2 fs-2 text-primary"></i>
-        <h5>User Management</h5>
+      <a href="my-profile.html" class="action-card">
+        <i class="fas fa-user mb-2 fs-2 text-primary"></i>
+        <h5>My Profile</h5>
       </a>
-      <a href="role-management.html" class="action-card">
-        <i class="fas fa-user-tag mb-2 fs-2 text-success"></i>
-        <h5>Role Management</h5>
-      </a>
-      <a href="permission-management.html" class="action-card">
-        <i class="fas fa-shield-alt mb-2 fs-2 text-warning"></i>
-        <h5>Permissions</h5>
-      </a>
-      <a href="settings.html" class="action-card">
-        <i class="fas fa-cog mb-2 fs-2 text-info"></i>
-        <h5>Settings</h5>
+      <a href="my-tasks.html" class="action-card">
+        <i class="fas fa-tasks mb-2 fs-2 text-success"></i>
+        <h5>My Tasks</h5>
       </a>
     </div>
   </div>
   
   <!-- Firebase Scripts -->
-  <!-- Use Firestore instead of Realtime Database -->
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore-compat.js"></script>
@@ -388,7 +332,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
-    // Firebase Configuration
+    // Firebase Configuration – update with your config details
     const firebaseConfig = {
       apiKey: "AIzaSyCjRso9RQxY9Vcgg_7v-aNV-VF6HMVbIko",
       authDomain: "bookkit-49189.firebaseapp.com",
@@ -413,21 +357,21 @@
     document.addEventListener('click', function(event) {
       const sidebar = document.getElementById('sidebar');
       const mobileToggle = document.getElementById('mobileToggle');
-      if (sidebar.classList.contains('show') && 
-          !sidebar.contains(event.target) && 
+      if (sidebar.classList.contains('show') &&
+          !sidebar.contains(event.target) &&
           !mobileToggle.contains(event.target)) {
         sidebar.classList.remove('show');
       }
     });
     
-    // Get User Role & Details using Firestore
-    async function getUserRoleAndDetails(uid) {
+    // Get user details from Firestore
+    async function getUserDetails(uid) {
       try {
         const userDoc = await db.collection('users').doc(uid).get();
         const userData = userDoc.data();
         return {
-          role: userData?.role || 'User',
-          permissions: userData?.permissions ? userData.permissions.split(',') : ['Edit'],
+          role: userData?.role || 'Employee',
+          permissions: userData?.permissions ? userData.permissions.split(',') : ['View'],
           displayName: userData?.email || 'User'
         };
       } catch (error) {
@@ -440,63 +384,54 @@
       }
     }
     
-    // Update Dashboard Statistics using Firestore
-    async function updateDashboardStats() {
+    // Update User Dashboard Statistics using Firestore
+    async function updateUserStats(uid) {
       try {
-        // Total Users
-        const usersSnapshot = await db.collection('users').get();
-        document.getElementById('totalUsers').textContent = usersSnapshot.size;
+        // Total Tasks: Assuming a "tasks" collection with an "assignedTo" field
+        const tasksSnapshot = await db.collection('tasks').where('assignedTo', '==', uid).get();
+        document.getElementById('totalTasks').textContent = tasksSnapshot.size;
         
-        // Active Roles
-        const rolesSnapshot = await db.collection('roles').get();
-        document.getElementById('activeRoles').textContent = rolesSnapshot.size;
-        
-        // New Users in 30 Days
-        const thirtyDaysAgo = new Date(Date.now() - (30 * 24 * 60 * 60 * 1000));
-        const newUsersSnapshot = await db.collection('users')
-          .where('createdAt', '>=', thirtyDaysAgo)
+        // Completed Tasks: Assuming tasks have a "status" field
+        const completedSnapshot = await db.collection('tasks')
+          .where('assignedTo', '==', uid)
+          .where('status', '==', 'completed')
           .get();
-        document.getElementById('newUsers').textContent = newUsersSnapshot.size;
+        document.getElementById('completedTasks').textContent = completedSnapshot.size;
         
-        // Permission Sets: gather permissions from each role document
-        const rolesData = rolesSnapshot.docs.map(doc => doc.data());
-        const permissionSet = new Set();
-        rolesData.forEach(role => {
-          if (role.permissions) {
-            role.permissions.split(',').forEach(perm => permissionSet.add(perm.trim()));
-          }
-        });
-        document.getElementById('permissionSets').textContent = permissionSet.size;
+        // Pending Tasks: Assuming tasks with status "pending"
+        const pendingSnapshot = await db.collection('tasks')
+          .where('assignedTo', '==', uid)
+          .where('status', '==', 'pending')
+          .get();
+        document.getElementById('pendingTasks').textContent = pendingSnapshot.size;
       } catch (error) {
-        console.error("Error updating dashboard stats:", error);
+        console.error("Error updating user stats:", error);
       }
     }
     
-    // Auth State Listener: update UI and redirect if not an admin
+    // Auth State Listener: Confirm the role is "employee"
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         try {
-          const userDetails = await getUserRoleAndDetails(user.uid);
+          const userDetails = await getUserDetails(user.uid);
+          // If the user is not an employee, redirect them accordingly
+          if (userDetails.role.toLowerCase() !== 'employee') {
+            if (userDetails.role.toLowerCase() === 'admin') {
+              window.location.href = "dashboard.html";
+            } else if (userDetails.role.toLowerCase() === 'manager') {
+              window.location.href = "manager-dashboard.html";
+            }
+          }
+          // Update header with user info
           document.getElementById('userName').textContent = `Welcome, ${userDetails.displayName}`;
-          // Create initials for the avatar
           const initials = userDetails.displayName.split(' ')
             .map(n => n[0]).join('').substring(0,2).toUpperCase();
           document.getElementById('userAvatar').textContent = initials;
           document.getElementById('userRole').textContent = userDetails.role;
           document.getElementById('userPermissions').textContent = userDetails.permissions.join(', ');
           
-          // For the admin dashboard, ensure user is indeed an admin.
-          if (userDetails.role !== 'admin') {
-            // Redirect non-admin users to their respective dashboards.
-            if (userDetails.role === 'manager') {
-              window.location.href = "manager-dashboard.html";
-            } else {
-              window.location.href = "user-dashboard.html";
-            }
-          }
-          
-          // Update stats for admin dashboard.
-          updateDashboardStats();
+          // Update dashboard statistics for the user
+          updateUserStats(user.uid);
         } catch (error) {
           console.error("Error during auth state processing:", error);
           auth.signOut();

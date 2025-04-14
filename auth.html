@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -43,6 +43,9 @@
       --deep-blue: #2c5282;
       --pastel-green: #d1f0e0;
       --pastel-red: #ffe6e6;
+      --admin-color: #8B5CF6;
+      --manager-color: #3B82F6;
+      --employee-color: #10B981;
     }
     /* HEADER */
     header {
@@ -152,7 +155,6 @@
       cursor: pointer;
       margin-right: 10px;
     }
-    
     .btn-social {
       display: flex;
       align-items: center;
@@ -193,9 +195,141 @@
       text-align: center;
     }
     footer p { margin: 0; }
+    /* Role selector styles */
+    .role-selector {
+      display: none;
+      margin-bottom: 1.5rem;
+    }
+    .role-options {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .role-option {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      border: 2px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+    .role-option:hover {
+      transform: translateY(-2px);
+    }
+    .role-option.selected {
+      border-color: var(--deep-blue);
+      background-color: var(--light-blue);
+    }
+    .role-option i {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .role-option.admin i { color: var(--admin-color); }
+    .role-option.manager i { color: var(--manager-color); }
+    .role-option.employee i { color: var(--employee-color); }
+    /* Verification Code Section */
+    .verification-section {
+      display: none;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+      border-left: 4px solid var(--deep-blue);
+    }
+    .verification-section.admin-verification {
+      border-left-color: var(--admin-color);
+    }
+    .verification-section.manager-verification {
+      border-left-color: var(--manager-color);
+    }
+    .verification-section h5 {
+      margin-bottom: 1rem;
+      color: var(--deep-blue);
+    }
+    .verification-section p {
+      font-size: 0.9rem;
+      color: #6c757d;
+      margin-bottom: 1rem;
+    }
+    .code-input {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+    .code-digit {
+      width: 45px;
+      height: 45px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 8px;
+      border: 2px solid #dee2e6;
+    }
+    .code-digit:focus {
+      border-color: var(--mid-blue);
+      box-shadow: 0 0 0 0.2rem rgba(44, 82, 130, 0.25);
+    }
+    .verify-status {
+      display: none;
+      text-align: center;
+      font-weight: 600;
+      padding: 0.5rem;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+    .verify-status.success {
+      background-color: var(--pastel-green);
+      color: #28a745;
+      display: block;
+    }
+    .verify-status.error {
+      background-color: var(--pastel-red);
+      color: #dc3545;
+      display: block;
+    }
+    .btn-verify {
+      background-color: #f0f0f0;
+      color: var(--deep-blue);
+      border: 1px solid #dee2e6;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .btn-verify:hover {
+      background-color: #e9ecef;
+    }
+    /* Password Toggle Icon */
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #aaa;
+      z-index: 2;
+    }
+    /* Ensure the container of input is positioned relatively */
+    .position-relative { position: relative; }
+    
     /* MEDIA QUERIES */
     @media (max-width: 576px) {
       .auth-card { padding: 1.5rem; }
+      .role-options {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .code-input {
+        gap: 0.25rem;
+      }
+      .code-digit {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -238,9 +372,11 @@
           <label for="loginEmail"><i class="fas fa-envelope"></i> Email</label>
           <input type="email" class="form-control" id="loginEmail" placeholder="Enter your email" required>
         </div>
-        <div class="form-group">
+        <!-- Password input with toggle icon -->
+        <div class="form-group position-relative">
           <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
           <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" required>
+          <span class="password-toggle" data-target="loginPassword"><i class="fas fa-eye"></i></span>
         </div>
         <button type="submit" class="btn btn-auth">
           <i class="fas fa-sign-in-alt"></i> Login
@@ -256,15 +392,80 @@
           <label for="signupEmail"><i class="fas fa-envelope"></i> Email</label>
           <input type="email" class="form-control" id="signupEmail" placeholder="Enter your email" required>
         </div>
-        <div class="form-group">
+        <!-- Signup Password with toggle -->
+        <div class="form-group position-relative">
           <label for="signupPassword"><i class="fas fa-lock"></i> Password</label>
           <input type="password" class="form-control" id="signupPassword" placeholder="Create a password" required>
+          <span class="password-toggle" data-target="signupPassword"><i class="fas fa-eye"></i></span>
         </div>
-        <div class="form-group">
+        <!-- Confirm Password with toggle -->
+        <div class="form-group position-relative">
           <label for="signupConfirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
           <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm your password" required>
+          <span class="password-toggle" data-target="signupConfirmPassword"><i class="fas fa-eye"></i></span>
         </div>
-        <button type="submit" class="btn btn-auth">
+        
+        <!-- Role Selector -->
+        <div class="role-selector" id="roleSelector">
+          <label><i class="fas fa-user-tag"></i> Select Your Role</label>
+          <div class="role-options">
+            <div class="role-option admin" data-role="admin">
+              <i class="fas fa-user-shield"></i>
+              <div>Admin</div>
+            </div>
+            <div class="role-option manager" data-role="manager">
+              <i class="fas fa-user-tie"></i>
+              <div>Manager</div>
+            </div>
+            <div class="role-option employee" data-role="employee">
+              <i class="fas fa-user"></i>
+              <div>Employee</div>
+            </div>
+          </div>
+          <input type="hidden" id="selectedRole" value="employee">
+        </div>
+        
+        <!-- Admin Verification Section -->
+        <div id="adminVerification" class="verification-section admin-verification">
+          <h5><i class="fas fa-key"></i> Admin Verification Required</h5>
+          <p>Enter the 6-digit admin verification code to continue. This code should have been provided by your system administrator.</p>
+          <div class="code-input">
+            <input type="text" maxlength="1" class="code-digit admin-code" data-index="0">
+            <input type="text" maxlength="1" class="code-digit admin-code" data-index="1">
+            <input type="text" maxlength="1" class="code-digit admin-code" data-index="2">
+            <input type="text" maxlength="1" class="code-digit admin-code" data-index="3">
+            <input type="text" maxlength="1" class="code-digit admin-code" data-index="4">
+            <input type="text" maxlength="1" class="code-digit admin-code" data-index="5">
+          </div>
+          <div class="text-center">
+            <button type="button" id="verifyAdminBtn" class="btn-verify">
+              <i class="fas fa-check-circle"></i> Verify Code
+            </button>
+          </div>
+          <div id="adminVerifyStatus" class="verify-status"></div>
+        </div>
+        
+        <!-- Manager Verification Section -->
+        <div id="managerVerification" class="verification-section manager-verification">
+          <h5><i class="fas fa-key"></i> Manager Verification Required</h5>
+          <p>Enter the 6-digit manager verification code to continue. This code should have been provided by your admin.</p>
+          <div class="code-input">
+            <input type="text" maxlength="1" class="code-digit manager-code" data-index="0">
+            <input type="text" maxlength="1" class="code-digit manager-code" data-index="1">
+            <input type="text" maxlength="1" class="code-digit manager-code" data-index="2">
+            <input type="text" maxlength="1" class="code-digit manager-code" data-index="3">
+            <input type="text" maxlength="1" class="code-digit manager-code" data-index="4">
+            <input type="text" maxlength="1" class="code-digit manager-code" data-index="5">
+          </div>
+          <div class="text-center">
+            <button type="button" id="verifyManagerBtn" class="btn-verify">
+              <i class="fas fa-check-circle"></i> Verify Code
+            </button>
+          </div>
+          <div id="managerVerifyStatus" class="verify-status"></div>
+        </div>
+        
+        <button type="submit" id="signupButton" class="btn btn-auth">
           <i class="fas fa-user-plus"></i> Create Account
         </button>
       </form>
@@ -282,22 +483,6 @@
           <a href="#" id="backToLoginLink"><i class="fas fa-arrow-left"></i> Back to Login</a>
         </div>
       </form>
-
-      <!-- Social Login -->
-      <div class="auth-divider">
-        <span>OR CONTINUE WITH</span>
-      </div>
-      <div class="social-login">
-        <a href="#" class="btn-social btn-google" id="googleLogin">
-          <i class="fab fa-google"></i>
-        </a>
-        <a href="#" class="btn-social btn-microsoft" id="microsoftLogin">
-          <i class="fab fa-microsoft"></i>
-        </a>
-        <a href="#" class="btn-social btn-github" id="githubLogin">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
     </div>
   </div>
 
@@ -310,6 +495,8 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <!-- Firebase Auth -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <!-- Firebase Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
   <script>
     window.addEventListener('DOMContentLoaded', () => {
@@ -327,6 +514,12 @@
 
       firebase.initializeApp(firebaseConfig);
       const auth = firebase.auth();
+      const db = firebase.firestore();
+      
+      // Collection references
+      const usersCollection = db.collection('users');
+      const rolesCollection = db.collection('roles');
+      const verificationCodesCollection = db.collection('verificationCodes');
 
       // DOM Elements
       const loginTab = document.getElementById('loginTab');
@@ -340,9 +533,89 @@
       const alertError = document.getElementById('alertError');
       const successMessage = document.getElementById('successMessage');
       const errorMessage = document.getElementById('errorMessage');
-      const googleLogin = document.getElementById('googleLogin');
-      const microsoftLogin = document.getElementById('microsoftLogin');
-      const githubLogin = document.getElementById('githubLogin');
+      const roleSelector = document.getElementById('roleSelector');
+      const roleOptions = document.querySelectorAll('.role-option');
+      const selectedRoleInput = document.getElementById('selectedRole');
+      const adminVerification = document.getElementById('adminVerification');
+      const managerVerification = document.getElementById('managerVerification');
+      const adminVerifyBtn = document.getElementById('verifyAdminBtn');
+      const managerVerifyBtn = document.getElementById('verifyManagerBtn');
+      const adminVerifyStatus = document.getElementById('adminVerifyStatus');
+      const managerVerifyStatus = document.getElementById('managerVerifyStatus');
+      const signupButton = document.getElementById('signupButton');
+      
+      // Track verification status
+      let adminVerified = false;
+      let managerVerified = false;
+      
+      // Show the role selector when on signup tab
+      signupTab.addEventListener('click', () => {
+        roleSelector.style.display = 'block';
+      });
+      
+      loginTab.addEventListener('click', () => {
+        roleSelector.style.display = 'none';
+        adminVerification.style.display = 'none';
+        managerVerification.style.display = 'none';
+      });
+      
+      // Role selection logic with verification requirements
+      roleOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          roleOptions.forEach(opt => opt.classList.remove('selected'));
+          option.classList.add('selected');
+          const selectedRole = option.getAttribute('data-role');
+          selectedRoleInput.value = selectedRole;
+          
+          // Reset verification statuses
+          adminVerified = false;
+          managerVerified = false;
+          adminVerifyStatus.textContent = '';
+          adminVerifyStatus.className = 'verify-status';
+          managerVerifyStatus.textContent = '';
+          managerVerifyStatus.className = 'verify-status';
+          
+          // Clear verification code inputs
+          document.querySelectorAll('.code-digit').forEach(input => {
+            input.value = '';
+          });
+          
+          if (selectedRole === 'admin') {
+            adminVerification.style.display = 'block';
+            managerVerification.style.display = 'none';
+            signupButton.disabled = true;
+          } else if (selectedRole === 'manager') {
+            adminVerification.style.display = 'none';
+            managerVerification.style.display = 'block';
+            signupButton.disabled = true;
+          } else {
+            adminVerification.style.display = 'none';
+            managerVerification.style.display = 'none';
+            signupButton.disabled = false;
+          }
+        });
+      });
+
+      // Code digit input behavior
+      document.querySelectorAll('.code-digit').forEach(input => {
+        input.addEventListener('keyup', function(e) {
+          const dataIndex = parseInt(this.getAttribute('data-index'));
+          const isAdminCode = this.classList.contains('admin-code');
+          const codeClass = isAdminCode ? '.admin-code' : '.manager-code';
+          
+          // If digit entered, move to next input
+          if (this.value.length === 1) {
+            const nextInput = document.querySelector(`${codeClass}[data-index="${dataIndex + 1}"]`);
+            if (nextInput) nextInput.focus();
+          }
+          
+          // On backspace, move to previous input
+          if (e.key === 'Backspace' && this.value.length === 0) {
+            const prevInput = document.querySelector(`${codeClass}[data-index="${dataIndex - 1}"]`);
+            if (prevInput) prevInput.focus();
+          }
+        });
+      });
 
       // Helper Functions
       const showSuccessAlert = (message) => {
@@ -362,6 +635,90 @@
         alertError.style.display = 'none';
       };
 
+      // Get code from inputs
+      const getCode = (codeClass) => {
+        let code = '';
+        document.querySelectorAll(codeClass).forEach(input => {
+          code += input.value;
+        });
+        return code;
+      };
+
+      // Verify code against Firebase
+      const verifyCode = async (role, code) => {
+        try {
+          const codeDoc = await verificationCodesCollection.doc(role).get();
+          if (codeDoc.exists) {
+            const validCodes = codeDoc.data().codes;
+            return validCodes.includes(code);
+          }
+          return false;
+        } catch (error) {
+          console.error(`Error verifying ${role} code:`, error);
+          return false;
+        }
+      };
+
+      // Admin verification
+      adminVerifyBtn.addEventListener('click', async () => {
+        const code = getCode('.admin-code');
+        
+        if (code.length !== 6) {
+          adminVerifyStatus.textContent = 'Please enter all 6 digits';
+          adminVerifyStatus.className = 'verify-status error';
+          return;
+        }
+        
+        try {
+          const verified = await verifyCode('admin', code);
+          if (verified) {
+            adminVerified = true;
+            adminVerifyStatus.textContent = 'Code verified successfully!';
+            adminVerifyStatus.className = 'verify-status success';
+            signupButton.disabled = false;
+          } else {
+            adminVerified = false;
+            adminVerifyStatus.textContent = 'Invalid verification code';
+            adminVerifyStatus.className = 'verify-status error';
+            signupButton.disabled = true;
+          }
+        } catch (error) {
+          adminVerifyStatus.textContent = 'Error verifying code';
+          adminVerifyStatus.className = 'verify-status error';
+          console.error('Admin verification error:', error);
+        }
+      });
+
+      // Manager verification
+      managerVerifyBtn.addEventListener('click', async () => {
+        const code = getCode('.manager-code');
+        
+        if (code.length !== 6) {
+          managerVerifyStatus.textContent = 'Please enter all 6 digits';
+          managerVerifyStatus.className = 'verify-status error';
+          return;
+        }
+        
+        try {
+          const verified = await verifyCode('manager', code);
+          if (verified) {
+            managerVerified = true;
+            managerVerifyStatus.textContent = 'Code verified successfully!';
+            managerVerifyStatus.className = 'verify-status success';
+            signupButton.disabled = false;
+          } else {
+            managerVerified = false;
+            managerVerifyStatus.textContent = 'Invalid verification code';
+            managerVerifyStatus.className = 'verify-status error';
+            signupButton.disabled = true;
+          }
+        } catch (error) {
+          managerVerifyStatus.textContent = 'Error verifying code';
+          managerVerifyStatus.className = 'verify-status error';
+          console.error('Manager verification error:', error);
+        }
+      });
+
       // Tab Switching
       const switchTab = (activeTab) => {
         [loginTab, signupTab].forEach(tab => tab.classList.remove('active'));
@@ -369,9 +726,18 @@
         if (activeTab === 'login') {
           loginTab.classList.add('active');
           loginForm.classList.add('active');
+          roleSelector.style.display = 'none';
+          adminVerification.style.display = 'none';
+          managerVerification.style.display = 'none';
         } else if (activeTab === 'signup') {
           signupTab.classList.add('active');
           signupForm.classList.add('active');
+          roleSelector.style.display = 'block';
+          // Default role to employee on tab switch
+          roleOptions.forEach(opt => opt.classList.remove('selected'));
+          document.querySelector('.role-option.employee').classList.add('selected');
+          selectedRoleInput.value = 'employee';
+          signupButton.disabled = false;
         }
         hideAlerts();
       };
@@ -393,78 +759,117 @@
         hideAlerts();
       });
 
-      // Async function for handling authentication
-      const handleAuth = async (promise, successMsg, redirect = null) => {
+      // Initialize verification codes in Firestore (for demo purposes)
+      const initializeVerificationCodes = async () => {
         try {
-          await promise;
-          showSuccessAlert(successMsg);
-          if (redirect) {
-            setTimeout(() => window.location.href = redirect, 1500);
-          }
+          await verificationCodesCollection.doc('admin').set({ codes: ['666666'] });
+          await verificationCodesCollection.doc('manager').set({ codes: ['789012'] });
+          console.log("Verification codes initialized");
         } catch (error) {
-          showErrorAlert(error.message);
+          console.error("Error initializing verification codes:", error);
         }
       };
 
-      // Login Form Submission using async/await
+      // Call the initialization function on page load
+      initializeVerificationCodes();
+
+      // Handle Login Form Submission
       loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
-        await handleAuth(auth.signInWithEmailAndPassword(email, password), 'Login successful! Redirecting...', 'dashboard.html');
+        try {
+          const userCredential = await auth.signInWithEmailAndPassword(email, password);
+          showSuccessAlert('Login successful!');
+          // Retrieve the user's role from Firestore after login
+          const uid = userCredential.user.uid;
+          const userDoc = await usersCollection.doc(uid).get();
+          if (userDoc.exists) {
+            const role = userDoc.data().role;
+            if (role === 'admin') {
+              window.location.href = "dashboard.html";
+            } else if (role === 'manager') {
+              window.location.href = "manager-dashboard.html";
+            } else {
+              window.location.href = "user-dashboard.html";
+            }
+          } else {
+            showErrorAlert("User data not found!");
+          }
+        } catch (error) {
+          showErrorAlert(error.message);
+        }
       });
 
-      // Signup Form Submission using async/await
+      // Handle Signup Form Submission
       signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('signupEmail').value;
         const password = document.getElementById('signupPassword').value;
         const confirmPassword = document.getElementById('signupConfirmPassword').value;
+        const selectedRole = selectedRoleInput.value;
+        
         if (password !== confirmPassword) {
-          showErrorAlert('Passwords do not match.');
+          showErrorAlert('Passwords do not match');
           return;
         }
-        await handleAuth(auth.createUserWithEmailAndPassword(email, password), 'Account created successfully! You can now log in.');
-        // Automatically switch to login tab
-        setTimeout(() => switchTab('login'), 1500);
+        
+        if ((selectedRole === 'admin' && !adminVerified) || (selectedRole === 'manager' && !managerVerified)) {
+          showErrorAlert('Please verify your code before signing up.');
+          return;
+        }
+        
+        try {
+          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+          // Save user info to Firestore along with the role
+          await usersCollection.doc(userCredential.user.uid).set({
+            email,
+            role: selectedRole,
+            createdAt: new Date()
+          });
+          showSuccessAlert('Signup successful!');
+          // Redirect based on the selected role after signup
+          if (selectedRole === 'admin') {
+            window.location.href = "dashboard.html";
+          } else if (selectedRole === 'manager') {
+            window.location.href = "manager-dashboard.html";
+          } else {
+            window.location.href = "user-dashboard.html";
+          }
+        } catch (error) {
+          showErrorAlert(error.message);
+        }
       });
 
-      // Password Reset Form Submission using async/await
+      // Handle Password Reset Form Submission
       resetForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = document.getElementById('resetEmail').value;
-        await handleAuth(auth.sendPasswordResetEmail(email), 'Password reset email sent. Check your inbox.');
-      });
-
-      // Generic Social Login Handler
-      const handleSocialLogin = async (provider) => {
-        await handleAuth(auth.signInWithPopup(provider), 'Login successful! Redirecting...', 'dashboard.html');
-      };
-
-      googleLogin.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const provider = new firebase.auth.GoogleAuthProvider();
-        await handleSocialLogin(provider);
-      });
-
-      microsoftLogin.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const provider = new firebase.auth.OAuthProvider('microsoft.com');
-        await handleSocialLogin(provider);
-      });
-
-      githubLogin.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const provider = new firebase.auth.GithubAuthProvider();
-        await handleSocialLogin(provider);
-      });
-
-      // Redirect if already logged in
-      auth.onAuthStateChanged((user) => {
-        if (user) {
-          window.location.href = 'dashboard.html';
+        try {
+          await auth.sendPasswordResetEmail(email);
+          showSuccessAlert('Password reset link sent to your email!');
+        } catch (error) {
+          showErrorAlert(error.message);
         }
       });
+      
+      // PASSWORD TOGGLE FUNCTIONALITY
+      document.querySelectorAll('.password-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function() {
+          const targetId = this.getAttribute('data-target');
+          const input = document.getElementById(targetId);
+          if (input) {
+            if (input.type === 'password') {
+              input.type = 'text';
+              this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+              input.type = 'password';
+              this.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+          }
+        });
+      });
+
     });
   </script>
 </body>
